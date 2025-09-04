@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1 # O ID pode continuar o mesmo
+      author: jose.wilson
+      changes:
+        - createTable:
+            tableName: board
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+        - createTable:
+            tableName: card
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: board_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_card_board
+                    references: board(id)
+
+        # --- SEÇÃO CORRIGIDA ---
+        # Um bloco "insert" para cada linha que queremos adicionar.
+        - insert:
+            tableName: board
+            columns:
+              - column: { name: "name", value: "A Fazer" }
+        - insert:
+            tableName: board
+            columns:
+              - column: { name: "name", value: "Em Andamento" }
+        - insert:
+            tableName: board
+            columns:
+              - column: { name: "name", value: "Concluído" }
